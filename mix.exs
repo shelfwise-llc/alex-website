@@ -88,7 +88,10 @@ defmodule AlexWebsite.MixProject do
       {:sobelow, "~> 0.14", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.18", only: :test},
       {:hackney, "~> 1.18"},
-      {:tidewave, "~> 0.4", only: :dev}
+      {:tidewave, "~> 0.4", only: :dev},
+
+      # Ghost CMS integration
+      {:ghost_content, "~> 0.1.0"}
     ]
   end
 

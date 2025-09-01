@@ -1,1 +1,77 @@
 /* This file is for your main application CSS */
+
+/* Ghost blog content styling */
+.ghost-blog-content {
+  line-height: 1.6;
+  color: #333;
+}
+
+.ghost-blog-content h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+  margin: 1em 0 0.5em;
+}
+
+.ghost-blog-content h2 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 1.5em 0 0.5em;
+}
+
+.ghost-blog-content h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1.25em 0 0.5em;
+}
+
+.ghost-blog-content p {
+  margin: 1em 0;
+}
+
+.ghost-blog-content ul, .ghost-blog-content ol {
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+.ghost-blog-content li {
+  margin: 0.5em 0;
+}
+
+.ghost-blog-content blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 1em;
+  margin: 1.5em 0;
+  font-style: italic;
+  color: #666;
+}
+
+.ghost-blog-content code {
+  background: #f4f4f4;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+.ghost-blog-content pre {
+  background: #f4f4f4;
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+.ghost-blog-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+  border-radius: 5px;
+}
+
+.ghost-blog-content a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.ghost-blog-content a:hover {
+  color: #1d4ed8;
+}

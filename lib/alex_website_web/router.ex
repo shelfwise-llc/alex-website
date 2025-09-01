@@ -18,6 +18,10 @@ defmodule AlexWebsiteWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    
+    # Blog routes using Ghost CMS
+    live "/blog", BlogLive.Index, :index
+    live "/blog/:slug", BlogLive.Show, :show
   end
 
   # Other scopes may use custom stacks.
