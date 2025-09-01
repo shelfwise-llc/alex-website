@@ -56,6 +56,7 @@ defmodule AlexWebsite.MixProject do
     [
       # Phoenix Framework and essentials
       {:phoenix, "~> 1.7.10"},
+      {:dns_cluster, "~> 0.1.1"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},

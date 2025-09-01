@@ -10,7 +10,6 @@ defmodule AlexWebsite.Application do
     children = [
       AlexWebsiteWeb.Telemetry,
       AlexWebsite.Repo,
-      {DNSCluster, query: Application.get_env(:alex_website, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: AlexWebsite.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: AlexWebsite.Finch},
