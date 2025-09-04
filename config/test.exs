@@ -5,13 +5,22 @@ import Config
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
-config :alex_website, AlexWebsite.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "alex_website_test#{System.get_env("MIX_TEST_PARTITION")}",
-  pool: Ecto.Adapters.SQL.Sandbox,
-  pool_size: 10
+# Configure your database
+# Use DATABASE_URL if available (for CI/Neon), otherwise use local PostgreSQL
+if database_url = System.get_env("DATABASE_URL") do
+  config :alex_website, AlexWebsite.Repo,
+    url: database_url,
+    pool: Ecto.Adapters.SQL.Sandbox,
+    pool_size: 10
+else
+  config :alex_website, AlexWebsite.Repo,
+    username: "postgres",
+    password: "postgres",
+    hostname: "localhost",
+    database: "alex_website_test#{System.get_env("MIX_TEST_PARTITION")}",
+    pool: Ecto.Adapters.SQL.Sandbox,
+    pool_size: 10
+end
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.

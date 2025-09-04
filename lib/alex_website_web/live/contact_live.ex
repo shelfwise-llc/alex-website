@@ -50,7 +50,7 @@ defmodule AlexWebsiteWeb.ContactLive do
             <!-- Contact Information -->
             <div>
               <h2 class="text-2xl font-bold mb-8">Let's Connect</h2>
-              
+
               <!-- Email -->
               <div class="flex items-center mb-6 p-4 bg-gray-50 rounded-2xl">
                 <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
@@ -103,7 +103,7 @@ defmodule AlexWebsiteWeb.ContactLive do
             <!-- Contact Form -->
             <div>
               <h2 class="text-2xl font-bold mb-8">Send a Message</h2>
-              
+
               <%= if @form_submitted do %>
                 <div class="p-6 bg-green-50 border border-green-200 rounded-2xl">
                   <div class="flex items-center">
@@ -120,29 +120,29 @@ defmodule AlexWebsiteWeb.ContactLive do
                 <form phx-submit="send_message" class="space-y-6">
                   <div>
                     <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                    <input type="text" name="message[name]" id="name" required 
+                    <input type="text" name="message[name]" id="name" required
                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors">
                   </div>
 
                   <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                    <input type="email" name="message[email]" id="email" required 
+                    <input type="email" name="message[email]" id="email" required
                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors">
                   </div>
 
                   <div>
                     <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-                    <input type="text" name="message[subject]" id="subject" required 
+                    <input type="text" name="message[subject]" id="subject" required
                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors">
                   </div>
 
                   <div>
                     <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                    <textarea name="message[content]" id="message" rows="6" required 
+                    <textarea name="message[content]" id="message" rows="6" required
                               class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors resize-none"></textarea>
                   </div>
 
-                  <button type="submit" 
+                  <button type="submit"
                           class="w-full px-6 py-3 text-white font-medium rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:shadow-lg hover:shadow-purple-500/25 transform hover:-translate-y-0.5 transition-all duration-300">
                     Send Message
                   </button>
