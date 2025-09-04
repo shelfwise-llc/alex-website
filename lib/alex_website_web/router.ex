@@ -18,6 +18,11 @@ defmodule AlexWebsiteWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/about", AboutLive, :index
+    live "/contact", ContactLive, :index
+    live "/now", NowLive, :index
+    live "/work", WorkLive, :index
+    live "/work/:slug", WorkLive, :show
     
     # Blog routes using Ghost CMS
     live "/blog", BlogLive.Index, :index

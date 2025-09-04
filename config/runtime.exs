@@ -65,6 +65,11 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  # Configure Ghost CMS
+  config :alex_website, :ghost_content,
+    host: System.get_env("GHOST_HOST") || "http://ghost:2368",
+    api_key: System.get_env("GHOST_CONTENT_API_KEY") || "your-ghost-api-key"
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key

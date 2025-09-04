@@ -17,7 +17,6 @@ defmodule AlexWebsiteWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import AlexWebsiteWeb.Gettext
 
   @doc """
   Renders a modal.
