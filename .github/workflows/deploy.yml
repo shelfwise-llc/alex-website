@@ -35,7 +35,17 @@ jobs:
         run: mix deps.get
 
       - name: Run quality checks
-        run: mix quality.ci
+        run: |
+          if [ -n "${{ secrets.NEON_DATABASE_URL }}" ]; then
+            echo "Using Neon database for CI"
+            MIX_ENV=test mix quality.ci
+          else
+            echo "No Neon database URL provided, running without database tests"
+            MIX_ENV=test mix compile --all-warnings --warnings-as-errors
+            MIX_ENV=test mix format --check-formatted
+            MIX_ENV=test mix credo --strict
+            MIX_ENV=test mix sobelow --exit
+          fi
         env:
           DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
 
