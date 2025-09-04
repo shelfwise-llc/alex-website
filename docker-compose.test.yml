@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik:/etc/traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=your-email@example.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme.json"
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: alex_website_test
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ghost:
+    image: ghost:5-alpine
+    restart: always
+    environment:
+      database__client: mysql
+      database__connection__host: ghost_db
+      database__connection__user: root
+      database__connection__password: ghostdbpassword
+      database__connection__database: ghost
+      url: https://ghost.alex.38.242.219.222.nip.io
+      NODE_ENV: development
+    volumes:
+      - ghost_content:/var/lib/ghost/content
+    depends_on:
+      ghost_db:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ghost.rule=Host(`ghost.alex.38.242.219.222.nip.io`)"
+      - "traefik.http.routers.ghost.tls=true"
+      - "traefik.http.routers.ghost.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ghost.loadbalancer.server.port=2368"
+
+  ghost_db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ghostdbpassword
+      MYSQL_DATABASE: ghost
+    volumes:
+      - ghost_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  phoenix:
+    build: .
+    restart: unless-stopped
+    environment:
+      MIX_ENV: prod
+      DATABASE_URL: "ecto://postgres:postgres@db/alex_website_test"
+      SECRET_KEY_BASE: "MxIzverHJuLFpTbUOi0k3zqsbD//gUKOwVqYeHsPpe0hA/ALxuwkB2yQHh5TUGzF"
+      PHX_HOST: alex.38.242.219.222.nip.io
+      PORT: 4000
+      GHOST_CONTENT_API_KEY: your-ghost-api-key
+    depends_on:
+      db:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.phoenix.rule=Host(`alex.38.242.219.222.nip.io`)"
+      - "traefik.http.routers.phoenix.tls=true"
+      - "traefik.http.routers.phoenix.tls.certresolver=letsencrypt"
+      - "traefik.http.services.phoenix.loadbalancer.server.port=4000"
+
+volumes:
+  postgres_data:
+  ghost_content:
+  ghost_db_data:
+
+
