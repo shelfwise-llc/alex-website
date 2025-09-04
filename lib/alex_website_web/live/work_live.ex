@@ -6,14 +6,18 @@ defmodule AlexWebsiteWeb.WorkLive do
     {:ok, assign(socket, page_title: "My Work", projects: projects)}
   end
 
-  def mount(%{"slug" => slug}, _session, socket) do
+  def handle_params(%{"slug" => slug}, _url, socket) do
     projects = get_projects()
     case Enum.find(projects, &(&1.slug == slug)) do
-      nil -> 
-        {:ok, socket |> put_flash(:error, "Project not found") |> push_navigate(to: ~p"/work")}
-      project -> 
-        {:ok, assign(socket, page_title: project.title, project: project, live_action: :show)}
+      nil ->
+        {:noreply, socket |> put_flash(:error, "Project not found") |> push_navigate(to: ~p"/work")}
+      project ->
+        {:noreply, assign(socket, page_title: project.title, project: project, live_action: :show)}
     end
+  end
+
+  def handle_params(_params, _url, socket) do
+    {:noreply, socket}
   end
 
   defp get_projects do
@@ -154,7 +158,7 @@ defmodule AlexWebsiteWeb.WorkLive do
                         <span class="px-2 py-1 bg-white/90 text-gray-700 text-xs font-medium rounded-full backdrop-blur-sm"><%= project.year %></span>
                       </div>
                     </div>
-                    
+
                     <div class="p-6">
                       <div class="flex items-center justify-between mb-2">
                         <span class="text-sm font-medium text-purple-600"><%= project.category %></span>
@@ -254,7 +258,7 @@ defmodule AlexWebsiteWeb.WorkLive do
                 <span class="px-3 py-1 bg-white text-gray-600 text-sm rounded-full border border-gray-200"><%= tag %></span>
               <% end %>
             </div>
-            
+
             <!-- Project Links -->
             <div class="flex flex-wrap justify-center gap-4">
               <%= if @project.demo_url do %>
@@ -326,7 +330,7 @@ defmodule AlexWebsiteWeb.WorkLive do
           <div class="prose prose-lg max-w-none">
             <h2>Project Overview</h2>
             <p>This project represents a significant exploration into modern web development practices and user experience design. The goal was to create something that not only functions well but also provides an engaging and intuitive user experience.</p>
-            
+
             <h3>Key Features</h3>
             <ul>
               <li>Responsive design that works across all devices</li>
