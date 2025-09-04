@@ -35,7 +35,10 @@ jobs:
         run: mix deps.get
 
       - name: Run quality checks
-        run: mix quality.ci
+        run: |
+          MIX_ENV=test mix compile --warnings-as-errors
+          MIX_ENV=test mix format --check-formatted
+          MIX_ENV=test mix credo --strict
 
   build-and-deploy:
     name: Build and Deploy
